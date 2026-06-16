@@ -53,7 +53,34 @@ function handleSearchSubmit(event) {
   searchCity(searchInput.value);
 }
 
-let searchFormElement = document.querySelector(`#search-form`);
-searchFormElement.addEventListener("submit", handleSearchSubmit);
+function displayForecast() {
+  let forecastHtml = "";
+  let days = ["Tue", "Wed", "Thu", "Fri"];
 
+  days.forEach(function (day) {
+    forecastHtml =
+      forecastHtml +
+      `<div class="weather-app-forecast-day">
+                    <div class="weather-app-forecast-date">${day}</div>
+                    <div class="weather-app-forecast-icon">🌤️</div>
+                    <div class="weather-app-forecast-temperatures">
+                        <div class="weather-app-forecast-degree"> <strong>15°</strong></div>
+                        <div class="weather-app-forecast-degree"> 10°</div>
+                    </div>
+                </div>`;
+  });
+
+  let forecastElement = document.querySelector("#forecast");
+  forecastElement.innerHTML = forecastHtml;
+}
+
+let searchFormElement = document.querySelector(`#search-form`);
+if (searchFormElement) {
+  searchFormElement.addEventListener("submit", handleSearchSubmit);
+} else {
+  console.warn("#search-form not found in the DOM");
+}
+
+// render forecast placeholders and perform an initial search
+displayForecast();
 searchCity("New York");
