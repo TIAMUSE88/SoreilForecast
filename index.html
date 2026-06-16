@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.13.2/dist/axios.min.js"></script>
+    <title>Soreil Weather App☀️</title>
+</head>
+
+<body>
+    <h1>Soreil Weather App☀️</h1>
+    <div class="weather-app">
+        <header>
+            <form search class="search-form" id="search-form">
+                <input type="search" placeholder="Enter a city..." required class="search-input" id="search-input" />
+                <input type="submit" value="Search" class="search-button" />
+            </form>
+        </header>
+        <main>
+            <div class="weather-app-data">
+                <div>
+                    <h1 class="city-name" id="city-name">, <em class="country-initial" id="country-initial"></em></h1>
+                    <p class="weather-app-details" id="weather-details"> <span id="time"></span> <span
+                            id="description"></span>.
+                        <br>
+                        Humidity: <strong id="humidity"></strong>
+                        | Wind: <strong id="wind"></strong>
+                </div>
+                <div class="weather-app-temp-container">
+                    <div id="icon"><img
+                            src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/few-clouds-day.png"
+                            alt="Weather Icon" class="weather-app-icon-img" /></div>
+                    <div class="weather-app-temp" id="temperature"> </div>
+                    <div class="weather-app-unit">°C</div>
+                </div>
+            </div>
+        </main>
+        <footer class="portfolio">Brought to you by <a href="https://github.com/TIAMUSE88">Tracey-Marie</a> - outsourced
+            on my <a href="https://github.com/TIAMUSE88/SoreilApp" target="_blank">GitHub</a> and Hosted on <a href="#"
+                target="_blank"> <a href="https://soreilapp.netlify.app/">Netlify.</a></footer>
+    </div>
+    <footer class="footer-soreil">
+        <p>&copy; 2026 Soreil Weather App. All rights reserved.</p>
+    </footer>
+    <script src="src/index.js"></script>
+</body>
+
+</html>
