@@ -56,31 +56,46 @@ function handleSearchSubmit(event) {
 
 function forecastResult(city) {
   let apiKey = `9387af763ce4b20bcfo1t37b0bacd41e`;
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&unit=metric`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&unit=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
 
 function displayForecast(response) {
-  console.log(response);
+  console.log(response.data);
+  console.log(response.data.daily); // show the daily forecast array
 
-  let days = ["Tue", "Wed", "Thu", "Fri", "Sat"];
   let forecastHtml = "";
 
-  days.forEach(function (day) {
-    forecastHtml =
-      forecastHtml +
-      `<div class="weather-app-forecast-day">
-                    <div class="weather-app-forecast-date">${day}</div>
-                    <div class="weather-app-forecast-icon">🌤️</div>
-                    <div class="weather-app-forecast-temperatures">
-                        <div class="weather-app-forecast-degree"> <strong>15°</strong></div>
-                        <div class="weather-app-forecast-degree"> 10°</div>
-                    </div>
-                </div>`;
+  response.data.daily.slice(0, 5).forEach(function (day) {
+    let dayName = formatDay(day.time);
+    let maxTemp = Math.round(day.temperature.maximum);
+    let minTemp = Math.round(day.temperature.minimum);
+    let iconUrl = day.condition.icon_url;
+    let description = day.condition.description;
+
+    forecastHtml += `
+      <div class="weather-app-forecast-day">
+        <div class="weather-app-forecast-date">${dayName}</div>
+        <div class="weather-app-forecast-icon">
+          <img src="${iconUrl}" alt="${description}" />
+        </div>
+        <div class="weather-app-forecast-temperatures">
+          <div class="weather-app-forecast-degree"><strong>${maxTemp}°</strong></div>
+          <div class="weather-app-forecast-degree">${minTemp}°</div>
+        </div>
+      </div>`;
   });
 
   let forecastElement = document.querySelector("#forecast");
-  forecastElement.innerHTML = forecastHtml;
+  if (forecastElement) {
+    forecastElement.innerHTML = forecastHtml;
+  }
+}
+
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[date.getDay()];
 }
 
 let searchFormElement = document.querySelector(`#search-form`);
@@ -90,7 +105,5 @@ if (searchFormElement) {
   console.warn("#search-form not found in the DOM");
 }
 
-// render forecast placeholders and perform an initial search
-displayForecast();
+// perform an initial search and forecast load
 searchCity("New York");
-forecastResult("New York");
