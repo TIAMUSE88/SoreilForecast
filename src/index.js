@@ -17,6 +17,7 @@ function displayWeather(response) {
   windElement.innerHTML = `${response.data.wind.speed}km/h`;
   iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" />`;
   console.log(response.data);
+  forecastResult(response.data.city);
 }
 
 function formatDate(date) {
@@ -53,9 +54,17 @@ function handleSearchSubmit(event) {
   searchCity(searchInput.value);
 }
 
-function displayForecast() {
+function forecastResult(city) {
+  let apiKey = `9387af763ce4b20bcfo1t37b0bacd41e`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&unit=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
+function displayForecast(response) {
+  console.log(response);
+
+  let days = ["Tue", "Wed", "Thu", "Fri", "Sat"];
   let forecastHtml = "";
-  let days = ["Tue", "Wed", "Thu", "Fri"];
 
   days.forEach(function (day) {
     forecastHtml =
@@ -84,3 +93,4 @@ if (searchFormElement) {
 // render forecast placeholders and perform an initial search
 displayForecast();
 searchCity("New York");
+forecastResult("New York");
